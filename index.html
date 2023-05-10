@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
+    <script>
+      // Define the image target URL and video URL
+      const targetImageUrl = "https://github.com/tommaster-pixel/avcard/blob/main/Untitled-1.jpg";
+      const videoUrl = "https://github.com/tommaster-pixel/avcard/blob/main/transperent%20video.webm";
+
+      // Set up the MindAR image tracker
+      const tracker = new MindAR.ImageTracker({
+        licenceKey: "YOUR_LICENSE_KEY",
+      });
+
+      // Create a new image target with a custom size and position
+      const target = new MindAR.ImageTarget({
+        name: "custom-target",
+        size: { width: 0.2, height: 0.2 },
+        url: targetImageUrl,
+        onImageFound: () => {
+          // When the image is found, start playing the video
+          video.play();
+        },
+        onImageLost: () => {
+          // When the image is lost, pause the video
+          video.pause();
+        },
+      });
+
+      // Add the image target to the image tracker
+      tracker.addTarget(target);
+
+      // Create a new HTML5 video element with transparent video shader
+      const video = document.createElement("video");
+      video.src = videoUrl;
+      video.setAttribute("loop", "");
+      video.setAttribute("autoplay", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("crossorigin", "anonymous");
+      video.setAttribute("transparent-video", "");
+
+      // Set the position and rotation of the video element
+      video.style.position = "absolute";
+      video.style.top = "50%";
+      video.style.left = "50%";
+      video.style.transform = "translate(-50%, -50%) rotate(90deg)";
+
+      // Add the video element to the body of the HTML document
+      document.body.appendChild(video);
+    </script>
+  </head>
+  <body>
+    <!-- Add an empty container element for the MindAR scene -->
+    <div id="mindar-container"></div>
+  </body>
+</html>
